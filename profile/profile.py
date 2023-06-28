@@ -1,7 +1,7 @@
 # flask import
 from flask import Flask, request, jsonify
 from flask import Blueprint
-from profile.comp.data import getProfileDropDown
+from profile.profile_data import ProfileDataDropdown
 
 profile = Blueprint('profile', __name__)
 
@@ -15,12 +15,17 @@ sqlQuery = '''
         )
         '''
 
+def profile_routes(connection):
 
-@profile.route('/dropdown-data', methods=["GET"])
-def getDropDownData():
-    try:
-        dropDownData = getProfileDropDown()
-        return jsonify({"data": dropDownData, "success": True}), 200
-    except Exception as e:
-        print(e)
-        return jsonify({"data": 'Error Occured'}), 500
+    profileDropDownObj = ProfileDataDropdown()
+
+    @profile.route('/dropdown-data', methods=["GET"])
+    def getDropDownData():
+        try:
+            dropDownData = profileDropDownObj.getProfileDropDown()
+            return jsonify({"data": dropDownData, "success": True}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"data": 'Error Occured'}), 500
+        
+    return profile 

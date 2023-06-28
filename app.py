@@ -8,7 +8,7 @@ from flask_compress import Compress
 # Routes imports 
 from auth.auth import auth_routes
 from explore.explore import explore_routes
-# from profile.profile import profile_routes
+from profile.profile import profile_routes
 # File imports 
 from auth.auth_db import AuthDb
 
@@ -32,7 +32,7 @@ authDbObj = AuthDb(connection)
 
 app.register_blueprint(auth_routes(connection), url_prefix='/')
 app.register_blueprint(explore_routes(connection), url_prefix='/')
-# app.register_blueprint(profile_routes(connection), url_prefix='/profile')
+app.register_blueprint(profile_routes(connection), url_prefix='/profile')
 
 @app.errorhandler(404)
 def error(e):
