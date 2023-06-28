@@ -14,14 +14,14 @@ def auth_routes(connection):
     def login():
         try:
             req = request.get_json()
-            userId, passwd = req["username"], req["password"]
+            username, passwd = req["username"], req["password"]
             # === check if user & passwd match
-            res = authDbObj.checkUserValidity(userId, passwd)
+            res = authDbObj.checkUserValidity(username, passwd)
             if not res:
                 return jsonify({"msg": "Username/Password is incorrect"}), 400
             else:
                 # === return user_id
-                query = f"select user_id from users where username =  '{userId}'"
+                query = f"select user_id from users where username =  '{username}'"
                 res = dataBaseObj.selectQuery(query, True)
                 if res is not None:
                     return jsonify({"msg": "success", "id": res[0]}), 200
