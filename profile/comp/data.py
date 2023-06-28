@@ -1,26 +1,23 @@
-from mapping import get_data_mapping
+from mapping import get_data_mapping,get_topic_list,topicName,platformName
 
 '''
 Profile data dropdown manipulation
 '''
-
-
 def getOptions(arr, name):
     lis = []
+    data_mapping = get_data_mapping()
     for idx, val in enumerate(arr):
         lis.append(
             {"id": idx+1, "label": data_mapping[name][val], "value": val})
     return lis
 
 
-data_mapping = get_data_mapping()
+platformList =  get_topic_list(platformName)
+topicList = get_topic_list(topicName)
+ 
 
-platformList = ["codechef", "codeforces", "leetcode"]
-topicList = ["arrays", "twoPointers", "strings"]
-
-
-platformOptionsList = getOptions(platformList, "platform")
-topicOptionsList = getOptions(topicList, "topics")
+platformOptionsList = getOptions(platformList, platformName)
+topicOptionsList = getOptions(topicList, topicName)
 
 
 dropDownData = [
