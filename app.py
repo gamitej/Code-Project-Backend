@@ -20,7 +20,7 @@ compress.init_app(app)
 # =============== Databse Connection Started ===============
 
 def connect_to_db():
-    print("💻 Connecting to database ...\n")
+    print("\n💻 Connecting to database ...\n")
     connection = sqlite3.connect('data.db')
     print("✅ Connected to database 💻 ...\n")
     return connection
@@ -41,7 +41,7 @@ def error(e):
 # =================== ROUTES END ============================
 
 def cleanup():
-    print("❌ Closed database connection...")
+    print("\n❌ Closed database connection...\n")
     connection.close()
 
 atexit.register(cleanup)
