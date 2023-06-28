@@ -9,7 +9,6 @@ class data_base():
         cursor.execute(query)
         self.connection.commit()
 
-
     def selectQuery(self,query, fetchOne=True):
         cursor = self.connection.cursor()
         cursor.execute(query)
@@ -19,7 +18,6 @@ class data_base():
             res = cursor.fetchall()
         return res
 
-
     def selectFromTable(self,col, table_name):
         cursor = self.connection.cursor()
         query = f"select {col} from {table_name}"
@@ -27,13 +25,11 @@ class data_base():
         row = result.fetchall()
         return row
 
-
     def insertIntoTable(self,table_name, total_values, values):
         cursor = self.connection.cursor()
         insert_query = f"INSERT OR IGNORE INTO {table_name} VALUES{total_values}"
         cursor.execute(insert_query, values)
         self.connection.commit()
-
 
     def updateTable(self,table_name, rows_to_update, where_cond, values):
         cursor = self.connection.cursor()
@@ -41,14 +37,11 @@ class data_base():
         cursor.execute(update_query, values)
         self.connection.commit()
 
-
     def deleteRowFromTable(self,table_name, id):
         cursor = self.connection.cursor()
         del_query = f"DELETE from {table_name} where id = '{id}'"
         cursor.execute(del_query)
         self.connection.commit()
 
-
 if __name__=='__main__':
     pass
-    data_base(x)
