@@ -11,7 +11,6 @@ from explore.create_excel import createExcel
 
 explore = Blueprint('explore', __name__)
 
-
 def explore_routes(connection):
     exploreDatabaseObj = ExploreDatabase(connection)
 

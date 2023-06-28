@@ -1,5 +1,5 @@
 import uuid
-from database import data_base
+from database.database import data_base
 
 class AuthDb:
     table_name = "users"

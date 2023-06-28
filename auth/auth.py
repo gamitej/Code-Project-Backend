@@ -1,7 +1,7 @@
 # ======= Flask imports ===========
 from flask import Blueprint, request, jsonify
 # ======= File imports ===========
-from database import data_base
+from database.database import data_base
 from auth.auth_db import AuthDb
 
 auth = Blueprint('auth', __name__)
