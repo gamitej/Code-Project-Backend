@@ -1,37 +1,32 @@
 import uuid
-from database import selectFromTable, insertIntoTable, deleteRowFromTable, updateTable
+from database import  data_base
 
-key = ["topicId", "topic", "question", "url", "level", "platform"]
+class ExploreDatabase:
 
-table_name = "questions"
+    table_name = "questions"
+    key = ["topicId", "topic", "question", "url", "level", "platform"]
 
+    def __init__(self, connection):
+        self.connection = connection
+        self.cursor = self.connection.cursor()
+        self.data_base_obj = data_base(connection)
+        
+    def getRemarks(self):
+        lis = []
+        rows = self.data_base_obj.selectFromTable("*", self.table_name)
+        for row in rows:
+            json = {}
+            for col in range(len(row)):
+                json[self.key[col]] = row[col]
+            lis.append(json)
+            json = {}
+        return lis
 
-def getRemarks():
-    lis = []
-    rows = selectFromTable("*", table_name)
-    for row in rows:
-        json = {}
-        for col in range(len(row)):
-            json[key[col]] = row[col]
-        lis.append(json)
-        json = {}
+    def addQuestionToTable(self,topic, question, url, level, platform):
+        topicId = uuid.uuid1().hex
+        res = self.data_base_obj.insertIntoTable(self.table_name, "(?,?,?,?,?,?)",
+                            (topicId, topic, question, url, level, platform))
+        return res
 
-    return lis
-
-
-def addQuestionToTable(topic, question, url, level, platform):
-    topicId = uuid.uuid1().hex
-    res = insertIntoTable(table_name, "(?,?,?,?,?,?)",
-                          (topicId, topic, question, url, level, platform))
-    return res
-
-
-def delRemark(id):
-    res = deleteRowFromTable(table_name, id)
-    return res
-
-
-def updateRemark(study, remark, work, id):
-    val = (study, remark, work, id)
-    res = updateTable(table_name, "study=?,remark=?,work=?", "id=?", val)
-    return res
+if __name__ == "__main__":
+    pass

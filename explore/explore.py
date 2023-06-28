@@ -1,27 +1,28 @@
-# flask import
+# Flask imports
 from flask import Flask, request, jsonify
 from flask import Blueprint
-# libs
+# Libs imports
 import os
 import json
 from threading import Thread
-# function import
-from explore.explore_db import addQuestionToTable, delRemark, updateRemark
+# File import
+from explore.explore_db import ExploreDatabase
 from explore.create_excel import createExcel
 
 explore = Blueprint('explore', __name__)
 
 
-# reading json
-json_file_path = os.path.join(explore.root_path, 'dummy.json')
-
 def explore_routes(connection):
+    exploreDatabaseObj = ExploreDatabase(connection)
+
+    # reading json
+    json_file_path = os.path.join(explore.root_path, 'dummy.json')
 
     with open(json_file_path) as file:
         data = json.load(file)
+
     topicsData, selectedTopicData = data.get(
         'topicsData'), data.get('selectedTopicData')
-
 
     @explore.route('/add-questions', methods=["POST"])
     def addQuestions():
@@ -31,7 +32,7 @@ def explore_routes(connection):
             url, level, question, topic, platform = req["url"], req[
                 "level"], req["question"], req["topic"], req["platform"]
             # -- inserting to table
-            res = addQuestionToTable(
+            res = exploreDatabaseObj.addQuestionToTable(
                 topic, question, url, level, platform)
             if res:
                 # -- return response
@@ -69,3 +70,4 @@ def explore_routes(connection):
             print(e)
             return jsonify({"data": 'Error Occured'}), 500
 
+    return explore
