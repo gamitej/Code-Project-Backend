@@ -2,10 +2,10 @@
 from flask_cors import CORS
 from flask import Flask, jsonify
 from flask_compress import Compress
-# ======= Libs imports ==========
+# ======= Libs imports ===========
 import sqlite3
 import atexit
-# ======= Routes imports ========
+# ======= Routes imports =========
 from auth.auth import auth
 from explore.explore import explore
 from profile.profile import profile
@@ -20,11 +20,10 @@ compress.init_app(app)
 def connect_to_db():
     print("💻 Connecting to database ...\n")
     connection = sqlite3.connect('data.db')
-    print("✅ Connected to database 💻 ...")
+    print("✅ Connected to database 💻 ...\n")
     return connection
 
 connection = connect_to_db()
-cursor = connection.cursor()
 
 # =============== Databse Connection Closed ===============
 
@@ -36,7 +35,7 @@ def cleanup():
 # connection.commit()
 # connection.close()
 
-# ============== ROUTES START ======================
+# =================== ROUTES START =========================
 
 app.register_blueprint(auth, url_prefix='/')
 app.register_blueprint(explore, url_prefix='/')
@@ -46,7 +45,7 @@ app.register_blueprint(profile, url_prefix='/profile')
 def error(e):
     return jsonify({"msg": "Wrong Route"}), 404
 
-# ============== ROUTES END ========================
+# =================== ROUTES END ============================
 
 atexit.register(cleanup)
 

@@ -1,63 +1,54 @@
-import sqlite3
+from app import connection
+
+class data_base():
+    def __init__(self):
+        self.connection = connection
+
+    def execute_query(self,query):
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        self.connection.commit()
 
 
-def connect_to_db():
-    connection = sqlite3.connect('data.db')
-    return connection
+    def selectQuery(self,query, fetchOne=True):
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        if fetchOne:
+            res = cursor.fetchone()
+        else:
+            res = cursor.fetchall()
+        return res
 
 
-def execute_query(query):
-    connection = connect_to_db()
-    cursor = connection.cursor()
-    cursor.execute(query)
-    connection.commit()
-    connection.close()
+    def selectFromTable(self,col, table_name):
+        cursor = self.connection.cursor()
+        query = f"select {col} from {table_name}"
+        result = cursor.execute(query)
+        row = result.fetchall()
+        return row
 
 
-def selectQuery(query, fetchOne=True):
-    connection = connect_to_db()
-    cursor = connection.cursor()
-    cursor.execute(query)
-    if fetchOne:
-        res = cursor.fetchone()
-    else:
-        res = cursor.fetchall()
-    connection.close()
-    return res
+    def insertIntoTable(self,table_name, total_values, values):
+        cursor = self.connection.cursor()
+        insert_query = f"INSERT OR IGNORE INTO {table_name} VALUES{total_values}"
+        cursor.execute(insert_query, values)
+        self.connection.commit()
 
 
-def selectFromTable(col, table_name):
-    connection = connect_to_db()
-    cursor = connection.cursor()
-    query = f"select {col} from {table_name}"
-    result = cursor.execute(query)
-    row = result.fetchall()
-    connection.close()
-    return row
+    def updateTable(self,table_name, rows_to_update, where_cond, values):
+        cursor = self.connection.cursor()
+        update_query = f"UPDATE {table_name} SET {rows_to_update} where {where_cond}"
+        cursor.execute(update_query, values)
+        self.connection.commit()
 
 
-def insertIntoTable(table_name, total_values, values):
-    connection = connect_to_db()
-    cursor = connection.cursor()
-    insert_query = f"INSERT OR IGNORE INTO {table_name} VALUES{total_values}"
-    cursor.execute(insert_query, values)
-    connection.commit()
-    connection.close()
+    def deleteRowFromTable(self,table_name, id):
+        cursor = self.connection.cursor()
+        del_query = f"DELETE from {table_name} where id = '{id}'"
+        cursor.execute(del_query)
+        self.connection.commit()
 
 
-def updateTable(table_name, rows_to_update, where_cond, values):
-    connection = connect_to_db()
-    cursor = connection.cursor()
-    update_query = f"UPDATE {table_name} SET {rows_to_update} where {where_cond}"
-    cursor.execute(update_query, values)
-    connection.commit()
-    connection.close()
-
-
-def deleteRowFromTable(table_name, id):
-    connection = connect_to_db()
-    cursor = connection.cursor()
-    del_query = f"DELETE from {table_name} where id = '{id}'"
-    cursor.execute(del_query)
-    connection.commit()
-    connection.close()
+if __name__=='__main__':
+    pass
+    data_base(x)
