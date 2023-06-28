@@ -1,7 +1,6 @@
-from app import connection
 
-class data_base():
-    def __init__(self):
+class data_base:
+    def __init__(self,connection):
         self.connection = connection
 
     def execute_query(self,query):

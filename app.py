@@ -1,14 +1,16 @@
-# ======= Flask imports ==========
+# Libs imports
+import atexit
+import sqlite3
+# Flask imports 
 from flask_cors import CORS
 from flask import Flask, jsonify
 from flask_compress import Compress
-# ======= Libs imports ===========
-import sqlite3
-import atexit
-# ======= Routes imports =========
-from auth.auth import auth
-from explore.explore import explore
-from profile.profile import profile
+# Routes imports 
+from auth.auth import auth_routes
+from explore.explore import explore_routes
+# from profile.profile import profile_routes
+# File imports 
+from auth.auth_db import AuthDb
 
 app = Flask(__name__)
 CORS(app)
@@ -24,28 +26,23 @@ def connect_to_db():
     return connection
 
 connection = connect_to_db()
-
-# =============== Databse Connection Closed ===============
-
-def cleanup():
-    print("❌ Closed database connection...")
-    connection.close()
-
-# cursor.execute(query)
-# connection.commit()
-# connection.close()
+authDbObj = AuthDb(connection)
 
 # =================== ROUTES START =========================
 
-app.register_blueprint(auth, url_prefix='/')
-app.register_blueprint(explore, url_prefix='/')
-app.register_blueprint(profile, url_prefix='/profile')
+app.register_blueprint(auth_routes(connection), url_prefix='/')
+app.register_blueprint(explore_routes(connection), url_prefix='/')
+# app.register_blueprint(profile_routes(connection), url_prefix='/profile')
 
 @app.errorhandler(404)
 def error(e):
     return jsonify({"msg": "Wrong Route"}), 404
 
 # =================== ROUTES END ============================
+
+def cleanup():
+    print("❌ Closed database connection...")
+    connection.close()
 
 atexit.register(cleanup)
 

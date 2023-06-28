@@ -1,16 +1,14 @@
 import uuid
-from app import connection
-from db import data_base
+from database import data_base
 
-
-class AuthDb():
+class AuthDb:
     table_name = "users"
     key = ["id", "username", "password"]
 
-    def __init__(self,connection,data_base_obj):
+    def __init__(self,connection):
         self.connection = connection
         self.cursor = self.connection.cursor()
-        self.data_base_obj = data_base_obj
+        self.data_base_obj = data_base(connection)
 
     def checkUserValidity(self,user, passwd):
         self.cursor.execute(
@@ -29,9 +27,8 @@ class AuthDb():
 
     def insertUser(self,username, password):
         id = uuid.uuid1().hex
-        res = data_base_obj.insertIntoTable(self.table_name, "(?,?,?)", (id, username, password))
+        res = self.data_base_obj.insertIntoTable(self.table_name, "(?,?,?)", (id, username, password))
         return res
 
-if __name__ == "__main__":
-    data_base_obj = data_base()
-    db = AuthDb(connection,data_base_obj)
+if __name__=='__main__':
+    pass

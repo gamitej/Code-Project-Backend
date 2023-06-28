@@ -1,5 +1,5 @@
 import uuid
-from db import selectFromTable, insertIntoTable, deleteRowFromTable, updateTable
+from database import selectFromTable, insertIntoTable, deleteRowFromTable, updateTable
 
 key = ["topicId", "topic", "question", "url", "level", "platform"]
 
