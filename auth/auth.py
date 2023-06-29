@@ -24,7 +24,7 @@ def auth_routes(connection):
                 query = f"select user_id from users where username =  '{username}'"
                 res = dataBaseObj.selectQuery(query, True)
                 if res is not None:
-                    return jsonify({"message": "success", "id": res[0],"error":False}), 200
+                    return jsonify({"message": "Login Successfull", "id": res[0],"error":False}), 200
                 else:
                     return jsonify({"message": "Something went wrong","error":True}), 400
         except Exception as e:
