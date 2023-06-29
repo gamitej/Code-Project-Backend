@@ -6,12 +6,14 @@ import os
 import json
 from threading import Thread
 # File import
-from explore.explore_db import ExploreDatabase
+from database.database import data_base
 from explore.create_excel import createExcel
+from explore.explore_db import ExploreDatabase
 
 explore = Blueprint('explore', __name__)
 
 def explore_routes(connection):
+    dataBaseObj = data_base(connection)
     exploreDatabaseObj = ExploreDatabase(connection)
 
     # reading json
@@ -30,16 +32,18 @@ def explore_routes(connection):
             # -- req body
             url, level, question, topic, platform = req["url"], req[
                 "level"], req["question"], req["topic"], req["platform"]
+            # -- check que is already present
+            query = f"select url from questions where url = '{url}'"
+            resQuery = dataBaseObj.selectQuery(query,True)
+            if resQuery != None:
+                return jsonify({"message": "Question present already", "error": False}), 200
             # -- inserting to table
-            res = exploreDatabaseObj.addQuestionToTable(
-                topic, question, url, level, platform)
+            res = exploreDatabaseObj.addQuestionToTable(url,topic,question,level,platform)
             if res:
-                # -- return response
                 return jsonify({"message": res, "error": False}), 400
             # -- update to excel
             thread = Thread(target=createExcel)
             thread.start()
-            # -- return response
             return jsonify({"message": "Question Added Successfully", "error": True}), 200
         except Exception as e:
             print(e)

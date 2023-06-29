@@ -18,10 +18,10 @@ cursor.execute(create_user_table)
 
 create_que_table = '''
         CREATE TABLE IF NOT EXISTS questions (
-            topic_id text PRIMARY KEY,
+            url VARCHAR(25) PRIMARY KEY,
+            topic_id text,
             topic VARCHAR(25) NOT NULL,
             question text,
-            url VARCHAR(25) NOT NULL,
             level VARCHAR(25) NOT NULL,
             platform VARCHAR(25) NOT NULL
         )
