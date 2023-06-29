@@ -7,6 +7,7 @@ from flask import Flask, jsonify
 from flask_compress import Compress
 # Routes imports 
 from auth.auth import auth_routes
+from topic.topic import topic_routes
 from explore.explore import explore_routes
 from profile.profile import profile_routes
 # File imports 
@@ -33,6 +34,8 @@ authDbObj = AuthDb(connection)
 app.register_blueprint(auth_routes(connection), url_prefix='/')
 app.register_blueprint(explore_routes(connection), url_prefix='/')
 app.register_blueprint(profile_routes(connection), url_prefix='/profile')
+app.register_blueprint(topic_routes(connection), url_prefix='/topic')
+
 
 @app.errorhandler(404)
 def error(e):
