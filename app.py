@@ -1,16 +1,16 @@
-# Libs imports
+# ======= Libs imports =========
 import atexit
 import sqlite3
-# Flask imports 
+# ======= Flask imports ======== 
 from flask_cors import CORS
 from flask import Flask, jsonify
 from flask_compress import Compress
-# Routes imports 
+# ======== Routes imports =======
 from auth.auth import auth_routes
 from topic.topic import topic_routes
 from explore.explore import explore_routes
 from profile.profile import profile_routes
-# File imports 
+# ========= File imports ======== 
 from auth.auth_db import AuthDb
 
 app = Flask(__name__)
@@ -33,8 +33,8 @@ authDbObj = AuthDb(connection)
 
 app.register_blueprint(auth_routes(connection), url_prefix='/')
 app.register_blueprint(explore_routes(connection), url_prefix='/')
-app.register_blueprint(profile_routes(connection), url_prefix='/profile')
 app.register_blueprint(topic_routes(connection), url_prefix='/topic')
+app.register_blueprint(profile_routes(connection), url_prefix='/profile')
 
 
 @app.errorhandler(404)
