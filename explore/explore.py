@@ -25,6 +25,29 @@ def explore_routes(connection):
     topicsData, selectedTopicData = data.get(
         'topicsData'), data.get('selectedTopicData')
 
+    @explore.route('/topics', methods=["GET"])
+    def getTopic():
+        # -- /topic?id=<string:id>
+        try:
+            id = request.args.get('id')
+            # -- return response
+            return jsonify({"data": topicsData, "error": True}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"data": 'Error Occured', "error": False}), 500
+
+
+    @explore.route('/selected_topic', methods=["GET"])
+    def getSelectedTopicData():
+        # -- /selected_topic/topic?id=<string:id>&topic=<string:topic>
+        try:
+            id, topic = request.args.get('id'), request.args.get('topic')
+            # -- return response
+            return jsonify({"data": selectedTopicData, "error": False}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"data": 'Error Occured', "error": True}), 500
+    
     @explore.route('/add-questions', methods=["POST"])
     def addQuestions():
         try:
@@ -47,30 +70,6 @@ def explore_routes(connection):
             return jsonify({"message": "Question Added Successfully", "error": True}), 200
         except Exception as e:
             print(e)
-            return jsonify({"data": 'Error Occured'}), 500
-
-
-    @explore.route('/topics', methods=["GET"])
-    def getTopic():
-        # -- /topic?id=<string:id>
-        try:
-            id = request.args.get('id')
-            # -- return response
-            return jsonify({"data": topicsData, "error": True}), 200
-        except Exception as e:
-            print(e)
-            return jsonify({"data": 'Error Occured'}), 500
-
-
-    @explore.route('/selected_topic', methods=["GET"])
-    def getSelectedTopicData():
-        # -- /selected_topic/topic?id=<string:id>&topic=<string:topic>
-        try:
-            id, topic = request.args.get('id'), request.args.get('topic')
-            # -- return response
-            return jsonify({"data": selectedTopicData, "error": True}), 200
-        except Exception as e:
-            print(e)
-            return jsonify({"data": 'Error Occured'}), 500
+            return jsonify({"data": 'Error Occured', "error": True}), 500
 
     return explore

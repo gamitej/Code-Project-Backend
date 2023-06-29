@@ -23,9 +23,9 @@ def profile_routes(connection):
     def getDropDownData():
         try:
             dropDownData = profileDropDownObj.getProfileDropDown()
-            return jsonify({"data": dropDownData, "success": True}), 200
+            return jsonify({"data": dropDownData, "error": False}), 200
         except Exception as e:
             print(e)
-            return jsonify({"data": 'Error Occured'}), 500
+            return jsonify({"data": 'Error Occured', "error": True}), 500
         
     return profile 
