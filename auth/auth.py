@@ -18,18 +18,18 @@ def auth_routes(connection):
             # === check if user & passwd match
             res = authDbObj.checkUserValidity(username, passwd)
             if not res:
-                return jsonify({"msg": "Username/Password is incorrect"}), 400
+                return jsonify({"message": "Username/Password is incorrect","error":False}), 400
             else:
                 # === return user_id
                 query = f"select user_id from users where username =  '{username}'"
                 res = dataBaseObj.selectQuery(query, True)
                 if res is not None:
-                    return jsonify({"msg": "success", "id": res[0]}), 200
+                    return jsonify({"message": "Login Successfull", "id": res[0],"error":False}), 200
                 else:
-                    return jsonify({"msg": "Something went wrong"}), 400
+                    return jsonify({"message": "Something went wrong","error":True}), 400
         except Exception as e:
             print(e)
-            return jsonify({"msg": "Something went wrong"}), 500
+            return jsonify({"message": "Something went wrong","error":False}), 500
 
     @auth.route('/signup', methods=["POST"])
     def signup():
@@ -39,13 +39,13 @@ def auth_routes(connection):
             # === check if user
             res = authDbObj.getUsers(username)
             if res:
-                return jsonify({"msg": "Username already exists"}), 400
+                return jsonify({"message": "Username already exists","error":False}), 400
             else:
                 res = authDbObj.insertUser(username, str(passwd))
-                return jsonify({"msg": "success"}), 200
+                return jsonify({"message": "success","error":True}), 200
         except Exception as e:
             print(e)
-            return jsonify({"msg": "Something went wrong"}), 500
+            return jsonify({"message": "Something went wrong","error":False}), 500
 
     return auth
 
