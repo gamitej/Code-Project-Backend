@@ -1,11 +1,11 @@
-# Flask imports
+# ============ Flask imports ===========
 from flask import Flask, request, jsonify
 from flask import Blueprint
-# Libs imports
+# ============== Libs imports ===========
 import os
 import json
 from threading import Thread
-# File import
+# ============ File imports =============
 from database.database import data_base
 from explore.create_excel import createExcel
 from explore.explore_db import ExploreDatabase
