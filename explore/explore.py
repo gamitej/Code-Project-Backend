@@ -43,9 +43,8 @@ def explore_routes(connection):
         try:
             id, topic = request.args.get('id'), request.args.get('topic')
             data = exploreDbObj.selectedTopicUserData(id,topic)
-            print(data)
             # -- return response
-            return jsonify({"data": selectedTopicData, "error": False}), 200
+            return jsonify({"data": data, "error": False}), 200
         except Exception as e:
             print(e)
             return jsonify({"data": 'Error Occured', "error": True}), 500
