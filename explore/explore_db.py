@@ -23,9 +23,8 @@ class ExploreDatabase:
         return lis
 
     def addQuestionToTable(self, url,topic, question, level, platform):
-        topic_id = uuid.uuid1().hex
-        print( url,topic, question, level, platform)
-        res = self.data_base_obj.insertIntoTable(self.table_name, "(?,?,?,?,?,?)",(url,topic_id, topic, question, level, platform))
+        question_id = uuid.uuid1().hex
+        res = self.data_base_obj.insertIntoTable(self.table_name, "(?,?,?,?,?,?)",(url,question_id, topic, question, level, platform))
         return res
 
 if __name__ == "__main__":
