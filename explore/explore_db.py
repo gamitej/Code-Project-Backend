@@ -11,16 +11,10 @@ class ExploreDatabase:
         self.cursor = self.connection.cursor()
         self.data_base_obj = data_base(connection)
         
-    def getRemarks(self):
-        lis = []
-        rows = self.data_base_obj.selectFromTable("*", self.table_name)
-        for row in rows:
-            json = {}
-            for col in range(len(row)):
-                json[self.key[col]] = row[col]
-            lis.append(json)
-            json = {}
-        return lis
+    def selectedTopicUserData(self,user_id, topic):
+        query = f"SELECT q.url, q.question_id, q.topic, q.question,q.level,q.platform, uq.mark_date, CASE WHEN uq.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS completed FROM questions q LEFT JOIN user_questions uq ON q.question_id = uq.question_id AND uq.user_id = '{user_id}' WHERE uq.user_id = '{user_id}' OR uq.user_id IS NULL AND topic = '{topic}' " 
+        data = self.data_base_obj.selectQuery(query,False)
+        return data
 
     def addQuestionToTable(self, url,topic, question, level, platform):
         question_id = uuid.uuid1().hex

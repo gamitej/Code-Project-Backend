@@ -1,6 +1,7 @@
 # ======= Libs imports =========
 import atexit
 import sqlite3
+from sqlite3 import dbapi2 as sqlite
 # ======= Flask imports ======== 
 from flask_cors import CORS
 from flask import Flask, jsonify
@@ -24,6 +25,8 @@ def connect_to_db():
     print("\n💻 Connecting to database ...\n")
     connection = sqlite3.connect('data.db')
     print("✅ Connected to database 💻 ...\n")
+    # Enable foreign key constraint exceptions
+    sqlite.enable_callback_tracebacks(True)
     return connection
 
 connection = connect_to_db()
