@@ -34,7 +34,6 @@ def explore_routes(connection):
         # -- /selected_topic/topic?id=<string:id>&topic=<string:topic>
         try:
             id, topic = request.args.get('id'), request.args.get('topic')
-            print(topic)
             data = exploreDbObj.selectedTopicUserData(id,topic)
             # -- return response
             return jsonify({"data": data, "error": False}), 200
