@@ -14,7 +14,7 @@ explore = Blueprint('explore', __name__)
 
 def explore_routes(connection):
     dataBaseObj = data_base(connection)
-    exploreDatabaseObj = ExploreDatabase(connection)
+    exploreDbObj = ExploreDatabase(connection)
 
     # reading json
     json_file_path = os.path.join(explore.root_path, 'dummy.json')
@@ -42,8 +42,9 @@ def explore_routes(connection):
         # -- /selected_topic/topic?id=<string:id>&topic=<string:topic>
         try:
             id, topic = request.args.get('id'), request.args.get('topic')
+            data = exploreDbObj.selectedTopicUserData(id,topic)
             # -- return response
-            return jsonify({"data": selectedTopicData, "error": False}), 200
+            return jsonify({"data": data, "error": False}), 200
         except Exception as e:
             print(e)
             return jsonify({"data": 'Error Occured', "error": True}), 500
@@ -61,7 +62,7 @@ def explore_routes(connection):
             if resQuery != None:
                 return jsonify({"message": "Question present already", "error": False}), 200
             # -- inserting to table
-            res = exploreDatabaseObj.addQuestionToTable(url,topic,question,level,platform)
+            res = exploreDbObj.addQuestionToTable(url,topic,question,level,platform)
             if res:
                 return jsonify({"message": res, "error": False}), 400
             # -- update to excel

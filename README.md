@@ -44,3 +44,5 @@ pip install -r requirements.txt
 5. gunicorn --log-level info your_app_module:app
 
 - Graceful shutdown: To gracefully shutdown the Gunicorn server, send a SIGTERM or SIGINT signal to the process. For example, you can use Ctrl+C in the terminal where the server is running to send the SIGINT signal and initiate a graceful shutdown.
+
+# 60b93a68164711eea88ae3300d621ca4
