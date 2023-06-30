@@ -16,22 +16,14 @@ def explore_routes(connection):
     dataBaseObj = data_base(connection)
     exploreDbObj = ExploreDatabase(connection)
 
-    # reading json
-    json_file_path = os.path.join(explore.root_path, 'dummy.json')
-
-    with open(json_file_path) as file:
-        data = json.load(file)
-
-    topicsData, selectedTopicData = data.get(
-        'topicsData'), data.get('selectedTopicData')
-
     @explore.route('/topics', methods=["GET"])
     def getTopic():
         # -- /topic?id=<string:id>
         try:
             id = request.args.get('id')
+            data = exploreDbObj.topicsInfoUser(id)
             # -- return response
-            return jsonify({"data": topicsData, "error": True}), 200
+            return jsonify({"data": data, "error": True}), 200
         except Exception as e:
             print(e)
             return jsonify({"data": 'Error Occured', "error": False}), 500

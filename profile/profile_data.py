@@ -60,5 +60,8 @@ class ProfileDataDropdown:
         },
     ]
 
+    def getTopicMapping(self):
+        return self.topicMappping
+
 if __name__=="__main__":
     obj = ProfileDataDropdown()
