@@ -39,13 +39,13 @@ def auth_routes(connection):
             # === check if user
             res = authDbObj.getUsers(username)
             if res:
-                return jsonify({"message": "Username already exists","error":False}), 400
+                return jsonify({"message": "Username already exists","error":True}), 400
             else:
                 res = authDbObj.insertUser(username, str(passwd))
-                return jsonify({"message": "success","error":True}), 200
+                return jsonify({"message": "Sign-up Successfully","error":False}), 200
         except Exception as e:
             print(e)
-            return jsonify({"message": "Something went wrong","error":False}), 500
+            return jsonify({"message": "Something went wrong","error":True}), 500
 
     return auth
 
