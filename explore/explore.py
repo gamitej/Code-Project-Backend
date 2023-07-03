@@ -40,6 +40,17 @@ def explore_routes(connection):
         except Exception as e:
             print(e)
             return jsonify({"data": 'Error Occured', "error": True}), 500
+        
+    @explore.route("/markQuestion",methods=["POST"])
+    def markQuestion():
+        try:
+            req = request.get_json()
+            id,question_id =  req["user_id"],req["question_id"]
+            dataBaseObj.execute_query(f"insert into user_questions (user_id, question_id) values ('{id}', '{question_id}')")
+            return jsonify({"data": "Mark question as done","error":False}),200            
+        except Exception as e:
+            print(e)
+            return jsonify({"data": 'Error Occured', "error": True}), 500
     
     @explore.route('/add-questions', methods=["POST"])
     def addQuestions():
