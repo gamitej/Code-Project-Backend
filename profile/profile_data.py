@@ -104,29 +104,24 @@ class ProfileDataDropdown:
     def getQueTableData(self,data):
         rows = []
         columns = [
-        {
-            "accessorKey": "level",
-            "header": "Level",
-            "size": 40,
-        },
-        {
-            "accessorKey": "question",
-            "header": "Question",
-            "size": 220,
-        },
          {
             "accessorKey": "topic",
             "header": "Topic",
             "size": 60,
         },
         {
-            "accessorKey": "url",
-            "header": "Question url",
+            "accessorKey": "question",
+            "header": "Question",
             "size": 220,
         },
         {
-            "accessorKey": "done",
-            "header": "Done",
+            "accessorKey": "url",
+            "header": "Url",
+            "size": 220,
+        },
+        {
+            "accessorKey": "level",
+            "header": "Level",
             "size": 40,
         },
         {
@@ -134,10 +129,19 @@ class ProfileDataDropdown:
             "header": "Platform",
             "size": 40,
         },
+        {
+            "accessorKey": "done",
+            "header": "Done",
+            "size": 40,
+        },
     ]
         for row in data:
             url,topic,question,level,platform,done=row[0],row[1],row[2],row[3],row[4],row[5]
-            rows.append({"level":level,"topic":topic,"question":question,"platform":platform,"done":done == 1,"url":url})
+            if done == 1:
+                done = "Yes"
+            else:
+                done ="No"
+            rows.append({"level":level,"topic":self.topicMappping[topic],"question":question,"platform":platform,"done":done,"url":url})
         return {"columns":columns,"rows":rows}
 
 if __name__=="__main__":
