@@ -1,5 +1,7 @@
 class ProfileDataDropdown:
 
+    # ================ DROP DOWN ===============
+
     topicName = "topics"
     platformName = "platform"
 
@@ -10,6 +12,41 @@ class ProfileDataDropdown:
                         "codeforces": "Codeforces", "leetcode": "Leetcode"}
 
     dataMapping = {topicName: topicMappping, platformName: platformMappping}
+
+    # ================== TABLE CONSTANTS =================
+
+    tableColumn = [
+        {
+            "accessorKey": "level",
+            "header": "Level",
+            "size": 40,
+        },
+        {
+            "accessorKey": "question",
+            "header": "Question",
+            "size": 220,
+        },
+         {
+            "accessorKey": "topic",
+            "header": "Topic",
+            "size": 60,
+        },
+        {
+            "accessorKey": "url",
+            "header": "Question url",
+            "size": 220,
+        },
+        {
+            "accessorKey": "done",
+            "header": "Done",
+            "size": 40,
+        },
+        {
+            "accessorKey": "platform",
+            "header": "Platform",
+            "size": 40,
+        },
+    ],
 
     def __init__(self):
         # lists
@@ -62,6 +99,14 @@ class ProfileDataDropdown:
 
     def getTopicMapping(self):
         return self.topicMappping
+    
+
+    def getQueTableData(self,data):
+        rows = []
+        for row in data:
+            url,topic,question,level,platform,done=row[0],row[1],row[2],row[3],row[4],row[5]
+            rows.append({"level":level,"topic":topic,"question":question,"platform":platform,"done":done == 1,"url":url})
+        return {"columns":self.tableColumn,"rows":rows}
 
 if __name__=="__main__":
     obj = ProfileDataDropdown()
