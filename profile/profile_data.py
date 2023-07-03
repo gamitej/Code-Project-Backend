@@ -13,41 +13,6 @@ class ProfileDataDropdown:
 
     dataMapping = {topicName: topicMappping, platformName: platformMappping}
 
-    # ================== TABLE CONSTANTS =================
-
-    tableColumn = [
-        {
-            "accessorKey": "level",
-            "header": "Level",
-            "size": 40,
-        },
-        {
-            "accessorKey": "question",
-            "header": "Question",
-            "size": 220,
-        },
-         {
-            "accessorKey": "topic",
-            "header": "Topic",
-            "size": 60,
-        },
-        {
-            "accessorKey": "url",
-            "header": "Question url",
-            "size": 220,
-        },
-        {
-            "accessorKey": "done",
-            "header": "Done",
-            "size": 40,
-        },
-        {
-            "accessorKey": "platform",
-            "header": "Platform",
-            "size": 40,
-        },
-    ],
-
     def __init__(self):
         # lists
         self.topicList = self.get_topic_list(self.topicName)
