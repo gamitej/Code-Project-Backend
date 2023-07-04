@@ -9,12 +9,12 @@ from flask_limiter import Limiter
 from flask_compress import Compress
 from flask_limiter.util import get_remote_address
 # ======== Routes imports =======
-from auth.auth import auth_routes
-from topic.topic import topic_routes
-from explore.explore import explore_routes
-from profile.profile import profile_routes
+from routes.auth.auth import auth_routes
+from routes.topic.topic import topic_routes
+from routes.explore.explore import explore_routes
+from routes.profile.profile import profile_routes
 # ========= File imports ======== 
-from auth.auth_db import AuthDb
+from routes.auth.auth_db import AuthDb
 
 app = Flask(__name__)
 limiter = Limiter(get_remote_address, app=app, default_limits=["200 per day", "50 per hour"])

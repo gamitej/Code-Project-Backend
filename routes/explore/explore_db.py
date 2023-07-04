@@ -1,6 +1,6 @@
 import uuid
-from database.database import  data_base
-from profile.profile_data import ProfileDataDropdown
+from routes.database.database import  data_base
+from routes.profile.profile_data import ProfileDataDropdown
 
 class ExploreDatabase:
 
