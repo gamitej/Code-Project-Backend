@@ -1,8 +1,11 @@
 # ========= Flask import ===========
 from flask import Flask, request, jsonify
 from flask import Blueprint
+from flask_jwt_extended import jwt_required
+# ========= Datatbase file import
 from routes.profile.profile_data import ProfileDataDropdown
 from routes.database.database import data_base
+
 
 profile = Blueprint('profile', __name__)
 
@@ -23,6 +26,7 @@ def profile_routes(connection,limiter):
 
     @profile.route('/dropdown-data', methods=["GET"])
     @limiter.limit("10/minute")
+    @jwt_required()
     def getDropDownData():
         try:
             dropDownData = profileDropDownObj.getProfileDropDown()
@@ -34,6 +38,7 @@ def profile_routes(connection,limiter):
 
     @profile.route('/table_data',methods=["GET"])
     @limiter.limit("10/minute")
+    @jwt_required()
     def getTableData():
         try:
             id = request.args.get('id')

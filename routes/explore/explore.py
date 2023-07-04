@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify
 from flask import Blueprint
 from flask_limiter import Limiter
+from flask_jwt_extended import jwt_required
 from flask_limiter.util import get_remote_address
 # ============== Libs imports ===========
 import os
@@ -20,20 +21,22 @@ def explore_routes(connection,limiter):
 
     @explore.route('/topics', methods=["GET"])
     @limiter.limit("10/minute")
+    @jwt_required() 
     def getTopic():
         # -- /topic?id=<string:id>
         try:
             id = request.args.get('id')
             data = exploreDbObj.topicsInfoUser(id)
             # -- return response
-            return jsonify({"data": data, "error": True}), 200
+            return jsonify({"data": data, "error": False}), 200
         except Exception as e:
             print(e)
-            return jsonify({"data": 'Error Occured', "error": False}), 500
+            return jsonify({"data": 'Error Occured', "error": True}), 500
 
 
     @explore.route('/selected_topic', methods=["GET"])
     @limiter.limit("10/minute")
+    @jwt_required() 
     def getSelectedTopicData():
         # -- /selected_topic/topic?id=<string:id>&topic=<string:topic>
         try:
@@ -47,6 +50,7 @@ def explore_routes(connection,limiter):
         
     @explore.route("/markQuestion",methods=["POST"])
     @limiter.limit("10/minute")
+    @jwt_required() 
     def markQuestion():
         try:
             req = request.get_json()
@@ -59,6 +63,7 @@ def explore_routes(connection,limiter):
     
     @explore.route('/add-questions', methods=["POST"])
     @limiter.limit("10/minute")
+    @jwt_required() 
     def addQuestions():
         try:
             req = request.get_json()
