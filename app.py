@@ -24,7 +24,6 @@ from routes.auth.auth_db import AuthDb
 config = Config(RepositoryEnv(".env")) 
 secret_key =config('SECRET_KEY')
 port = config('PORT')
-print(secret_key)
 
 # ======================= App config ========================
 
@@ -40,7 +39,7 @@ compress.init_app(app)
 
 # ==================== JWT Configuration =====================
 app.config['JWT_SECRET_KEY'] = secret_key  
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 120  
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
 jwt = JWTManager(app)
 
 # ==================== Logging ==============================
