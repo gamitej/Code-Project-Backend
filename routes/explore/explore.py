@@ -20,7 +20,7 @@ def explore_routes(connection,limiter):
     exploreDbObj = ExploreDatabase(connection)
 
     @explore.route('/topics', methods=["GET"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     @jwt_required() 
     def getTopic():
         # -- /topic?id=<string:id>
@@ -35,7 +35,7 @@ def explore_routes(connection,limiter):
 
 
     @explore.route('/selected_topic', methods=["GET"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     @jwt_required() 
     def getSelectedTopicData():
         # -- /selected_topic/topic?id=<string:id>&topic=<string:topic>
@@ -49,7 +49,7 @@ def explore_routes(connection,limiter):
             return jsonify({"data": 'Error Occured', "error": True}), 500
         
     @explore.route("/markQuestion",methods=["POST"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     @jwt_required() 
     def markQuestion():
         try:
@@ -62,7 +62,7 @@ def explore_routes(connection,limiter):
             return jsonify({"data": 'Error Occured', "error": True}), 500
     
     @explore.route('/add-questions', methods=["POST"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     @jwt_required() 
     def addQuestions():
         try:

@@ -25,7 +25,7 @@ def profile_routes(connection,limiter):
     dbObj = data_base(connection)
 
     @profile.route('/dropdown-data', methods=["GET"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     @jwt_required()
     def getDropDownData():
         try:
@@ -37,7 +37,7 @@ def profile_routes(connection,limiter):
         
 
     @profile.route('/table_data',methods=["GET"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     @jwt_required()
     def getTableData():
         try:

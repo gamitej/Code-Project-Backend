@@ -13,7 +13,7 @@ def auth_routes(connection,limiter):
     authDbObj = AuthDb(connection)
 
     @auth.route('/login', methods=["POST"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     def login():
         try:
             req = request.get_json()
@@ -38,7 +38,7 @@ def auth_routes(connection,limiter):
             return jsonify({"message": "Something went wrong","error":False}), 500
 
     @auth.route('/signup', methods=["POST"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     def signup():
         try:
             req = request.get_json()
