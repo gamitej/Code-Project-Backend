@@ -12,10 +12,11 @@ from explore.explore_db import ExploreDatabase
 
 topic = Blueprint('topic', __name__)
 
-def topic_routes(connection):
+def topic_routes(connection,limiter):
     dataBaseObj = data_base(connection)
     
     @topic.route('/markQue', methods=["POST"])
+    @limiter.limit("10/minute")
     def markQueDown():
         # -- /markQue?id=<string:id>&topic_id=<string:topic>
         try:
