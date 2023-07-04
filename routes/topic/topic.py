@@ -6,9 +6,9 @@ import os
 import json
 from threading import Thread
 # File import
-from database.database import data_base
-from explore.create_excel import createExcel
-from explore.explore_db import ExploreDatabase
+from routes.database.database import data_base
+from routes.explore.create_excel import createExcel
+from routes.explore.explore_db import ExploreDatabase
 
 topic = Blueprint('topic', __name__)
 

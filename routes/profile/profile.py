@@ -1,8 +1,8 @@
 # ========= Flask import ===========
 from flask import Flask, request, jsonify
 from flask import Blueprint
-from profile.profile_data import ProfileDataDropdown
-from database.database import data_base
+from routes.profile.profile_data import ProfileDataDropdown
+from routes.database.database import data_base
 
 profile = Blueprint('profile', __name__)
 
