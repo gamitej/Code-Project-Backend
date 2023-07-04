@@ -24,14 +24,12 @@ CORS(app)
 compress = Compress()
 compress.init_app(app)
 
-# Create a file handler for logging
+# ==================== Logging ==============================
 file_handler = logging.FileHandler('flask.log')
 
-# Set the log format
 formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s - IP: %(client_ip)s')
 file_handler.setFormatter(formatter)
 
-# Add the file handler to the Flask logger
 app.logger.addHandler(file_handler)
 
 # Custom log filter to include client IP address
@@ -43,7 +41,6 @@ class ClientIPFilter(logging.Filter):
             record.client_ip = 'Unknown'
         return True
 
-# Apply the log filter to the Flask logger
 app.logger.addFilter(ClientIPFilter())
 
 # =============== Databse Connection Started ===============
@@ -66,12 +63,10 @@ authDbObj = AuthDb(connection)
 def log_request():
     app.logger.info(f"Incoming request: {request.method} {request.path}")
 
-
 app.register_blueprint(auth_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(explore_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(topic_routes(connection,limiter), url_prefix='/topic')
 app.register_blueprint(profile_routes(connection,limiter), url_prefix='/profile')
-
 
 @app.errorhandler(404)
 def error(e):
