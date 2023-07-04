@@ -5,7 +5,9 @@ from sqlite3 import dbapi2 as sqlite
 # ======= Flask imports ======== 
 from flask_cors import CORS
 from flask import Flask, jsonify
+from flask_limiter import Limiter
 from flask_compress import Compress
+from flask_limiter.util import get_remote_address
 # ======== Routes imports =======
 from auth.auth import auth_routes
 from topic.topic import topic_routes
@@ -15,6 +17,7 @@ from profile.profile import profile_routes
 from auth.auth_db import AuthDb
 
 app = Flask(__name__)
+limiter = Limiter(get_remote_address, app=app, default_limits=["200 per day", "50 per hour"])
 CORS(app)
 compress = Compress()
 compress.init_app(app)
@@ -34,10 +37,11 @@ authDbObj = AuthDb(connection)
 
 # =================== ROUTES START =========================
 
-app.register_blueprint(auth_routes(connection), url_prefix='/')
-app.register_blueprint(explore_routes(connection), url_prefix='/')
-app.register_blueprint(topic_routes(connection), url_prefix='/topic')
-app.register_blueprint(profile_routes(connection), url_prefix='/profile')
+
+app.register_blueprint(auth_routes(connection,limiter), url_prefix='/')
+app.register_blueprint(explore_routes(connection,limiter), url_prefix='/')
+app.register_blueprint(topic_routes(connection,limiter), url_prefix='/topic')
+app.register_blueprint(profile_routes(connection,limiter), url_prefix='/profile')
 
 
 @app.errorhandler(404)

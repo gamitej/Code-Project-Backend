@@ -16,12 +16,13 @@ sqlQuery = '''
         )
         '''
 
-def profile_routes(connection):
+def profile_routes(connection,limiter):
 
     profileDropDownObj = ProfileDataDropdown()
     dbObj = data_base(connection)
 
     @profile.route('/dropdown-data', methods=["GET"])
+    @limiter.limit("10/minute")
     def getDropDownData():
         try:
             dropDownData = profileDropDownObj.getProfileDropDown()
@@ -32,6 +33,7 @@ def profile_routes(connection):
         
 
     @profile.route('/table_data',methods=["GET"])
+    @limiter.limit("10/minute")
     def getTableData():
         try:
             id = request.args.get('id')

@@ -6,11 +6,12 @@ from auth.auth_db import AuthDb
 
 auth = Blueprint('auth', __name__)
 
-def auth_routes(connection):
+def auth_routes(connection,limiter):
     dataBaseObj = data_base(connection)
     authDbObj = AuthDb(connection)
 
     @auth.route('/login', methods=["POST"])
+    @limiter.limit("10/minute")
     def login():
         try:
             req = request.get_json()
@@ -32,6 +33,7 @@ def auth_routes(connection):
             return jsonify({"message": "Something went wrong","error":False}), 500
 
     @auth.route('/signup', methods=["POST"])
+    @limiter.limit("10/minute")
     def signup():
         try:
             req = request.get_json()
