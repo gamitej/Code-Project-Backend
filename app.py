@@ -3,8 +3,8 @@ import os
 import atexit
 import sqlite3
 import logging
-from dotenv import load_dotenv
 from sqlite3 import dbapi2 as sqlite
+from decouple import Config, RepositoryEnv
 # ======= Flask imports ======== 
 from flask_cors import CORS
 from flask import Flask, jsonify,request
@@ -21,9 +21,9 @@ from routes.profile.profile import profile_routes
 from routes.auth.auth_db import AuthDb
 
 # .env 
-load_dotenv()
-secret_key = os.getenv('SECRET_KEY')
-port = os.getenv('PORT')
+config = Config(RepositoryEnv(".env")) 
+secret_key =config('SECRET_KEY')
+port = config('PORT')
 
 # ======================= App config ========================
 
@@ -39,7 +39,7 @@ compress.init_app(app)
 
 # ==================== JWT Configuration =====================
 app.config['JWT_SECRET_KEY'] = secret_key  
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 120  
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
 jwt = JWTManager(app)
 
 # ==================== Logging ==============================

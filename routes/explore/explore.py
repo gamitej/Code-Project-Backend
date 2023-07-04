@@ -80,8 +80,8 @@ def explore_routes(connection,limiter):
             if res:
                 return jsonify({"message": res, "error": False}), 400
             # -- update to excel
-            thread = Thread(target=createExcel)
-            thread.start()
+            # thread = Thread(target=createExcel)
+            # thread.start()
             return jsonify({"message": "Question Added Successfully", "error": True}), 200
         except Exception as e:
             print(e)
