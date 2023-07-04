@@ -16,7 +16,7 @@ def topic_routes(connection,limiter):
     dataBaseObj = data_base(connection)
     
     @topic.route('/markQue', methods=["POST"])
-    @limiter.limit("10/minute")
+    @limiter.limit("30/minute")
     def markQueDown():
         # -- /markQue?id=<string:id>&topic_id=<string:topic>
         try:
