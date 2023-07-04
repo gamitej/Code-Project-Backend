@@ -3,8 +3,8 @@ import os
 import atexit
 import sqlite3
 import logging
-from dotenv import load_dotenv
 from sqlite3 import dbapi2 as sqlite
+from decouple import Config, RepositoryEnv
 # ======= Flask imports ======== 
 from flask_cors import CORS
 from flask import Flask, jsonify,request
@@ -21,9 +21,10 @@ from routes.profile.profile import profile_routes
 from routes.auth.auth_db import AuthDb
 
 # .env 
-load_dotenv()
-secret_key = os.getenv('SECRET_KEY')
-port = os.getenv('PORT')
+config = Config(RepositoryEnv(".env")) 
+secret_key =config('SECRET_KEY')
+port = config('PORT')
+print(secret_key)
 
 # ======================= App config ========================
 
