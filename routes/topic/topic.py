@@ -15,6 +15,8 @@ topic = Blueprint('topic', __name__)
 def topic_routes(connection,limiter):
     dataBaseObj = data_base(connection)
     
+    # ======================== MARK QUE ============================
+
     @topic.route('/markQue', methods=["POST"])
     @limiter.limit("30/minute")
     def markQueDown():
