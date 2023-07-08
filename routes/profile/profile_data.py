@@ -6,7 +6,7 @@ class ProfileDataDropdown:
     platformName = "platform"
 
     topicMappping = {"twoPointers": "Two Pointers",
-                    "strings": "Strings", "arrays": "Arrays"}
+                    "strings": "Strings", "arrays": "Arrays","stack":"Stack","binarySearch":"Binary Search"}
 
     platformMappping = {"codechef": "Codechef",
                         "codeforces": "Codeforces", "leetcode": "Leetcode"}
