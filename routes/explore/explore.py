@@ -28,9 +28,17 @@ def explore_routes(connection,limiter):
         # -- /topic?id=<string:id>
         try:
             id = request.args.get('id')
-            data = exploreDbObj.topicsInfoUser(id)
+            query = f"SELECT topic FROM user_questions where user_id ='{id}' ORDER BY mark_date Desc limit 1"
+            queryRes = dataBaseObj.selectQuery(query)
+            if queryRes is None:
+                queryRes = {"data":"name","onGoingTopic":False }
+            else:
+                queryRes = {"data":queryRes[0],"onGoingTopic":True }
+            # -- get the topic
+            topicData = exploreDbObj.topicsInfoUser(id)
             # -- return response
-            return jsonify({"data": data, "error": False}), 200
+            fincalData = {"data":topicData,"onGoingTopic":queryRes} 
+            return jsonify({"data": fincalData, "error": False}), 200
         except Exception as e:
             print(e)
             return jsonify({"data": 'Error Occured', "error": True}), 500
@@ -60,8 +68,8 @@ def explore_routes(connection,limiter):
     def markQuestion():
         try:
             req = request.get_json()
-            id,question_id =  req["user_id"],req["question_id"]
-            dataBaseObj.execute_query(f"insert into user_questions (user_id, question_id) values ('{id}', '{question_id}')")
+            id,question_id,topic =  req["user_id"],req["question_id"],req["topic"]
+            dataBaseObj.execute_query(f"insert into user_questions (user_id, question_id,topic) values ('{id}', '{question_id}','{topic}')")
             return jsonify({"data": "Mark question as done","error":False}),200            
         except Exception as e:
             print(e)

@@ -35,7 +35,7 @@ def profile_routes(connection,limiter):
     def getTableData():
         try:
             id = request.args.get('id')
-            query = f"SELECT q.url, q.topic,q.question,q.level, q.platform,CASE WHEN uq.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS completed FROM questions q LEFT JOIN user_questions uq ON q.question_id = uq.question_id AND uq.user_id = '{id}' WHERE( uq.user_id = '{id}' OR uq.user_id IS NULL ) ORDER BY topic asc"
+            query = f"SELECT q.url, q.topic,q.question,q.level, q.platform,CASE WHEN uq.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS completed FROM questions q LEFT JOIN user_questions uq ON q.question_id = uq.question_id AND uq.user_id = '{id}' WHERE( uq.user_id = '{id}' OR uq.user_id IS NULL ) ORDER BY q.topic asc"
             data = dbObj.selectQuery(query,False)
             data = profileDropDownObj.getQueTableData(data)
             return jsonify({"data": data, "error": False}), 200
