@@ -26,11 +26,11 @@ class ExploreDatabase:
         return finalJson
         
     def selectedTopicUserData(self,user_id, topic):
-        query = f"SELECT q.url, q.question_id, q.topic, q.question,q.level,q.platform, uq.mark_date, CASE WHEN uq.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS completed FROM questions q LEFT JOIN user_questions uq ON q.question_id = uq.question_id AND uq.user_id = '{user_id}' WHERE (uq.user_id = '{user_id}' OR uq.user_id IS NULL) AND q.topic ='{topic}' " 
+        query = f"SELECT q.url, q.question_id, q.topic, q.question,q.level,q.platform, uq.mark_date, CASE WHEN uq.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS completed FROM questions q LEFT JOIN user_questions uq ON q.question_id = uq.question_id AND uq.user_id = '{user_id}' WHERE (uq.user_id = '{user_id}' OR uq.user_id IS NULL) AND q.topic ='{topic}' order by q.question" 
         data = self.data_base_obj.selectQuery(query,False)
         easy,medium,hard = [],[],[] 
         for row in data:
-            url,que_id,topic,que_name,level,platform,completed  = row[0],row[1],row[2],row[3],row[4],row[5],row[7]
+            url,que_id,topic,que_name,level,platform,completed  = row[0],row[1],row[2],row[3].strip(),row[4],row[5],row[7]
             if level == "easy":
                 json = {"id":que_id,"name":que_name,"completed": 1 == completed,"platform":platform,"url":url}
                 easy.append(json)

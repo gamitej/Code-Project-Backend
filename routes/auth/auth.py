@@ -12,6 +12,8 @@ def auth_routes(connection,limiter):
     dataBaseObj = data_base(connection)
     authDbObj = AuthDb(connection)
 
+    # =============================== LOGIN ============================
+
     @auth.route('/login', methods=["POST"])
     @limiter.limit("30/minute")
     def login():
@@ -36,6 +38,8 @@ def auth_routes(connection,limiter):
         except Exception as e:
             print(e)
             return jsonify({"message": "Something went wrong","error":False}), 500
+        
+    # ============================ SIGNUP =================================
 
     @auth.route('/signup', methods=["POST"])
     @limiter.limit("30/minute")
