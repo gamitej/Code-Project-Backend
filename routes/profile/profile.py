@@ -54,11 +54,9 @@ def profile_routes(connection,limiter):
             id = request.args.get('id')
             query = "select level, count(question_id) AS totalQue from questions GROUP BY level;"
             data = dbObj.selectQuery(query,False)
-            print(data)
             data = profileDbObj.calcUserStatus(data,id)
-            print(data)
             # data = profileDropDownObj.getQueTableData(data)
-            return jsonify({"data": {}, "error": False}), 200
+            return jsonify({"data":data, "error": False}), 200
         except Exception as e:
             print(e)
             return jsonify({"data": 'Error Occured', "error": True}), 500
