@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required
 # ========= Datatbase file import ============
 from routes.profile.profile_data import ProfileDataDropdown
 from routes.database.database import data_base
-
+from routes.profile.profile_db import ProfileDatabase
 
 profile = Blueprint('profile', __name__)
 
@@ -13,6 +13,7 @@ def profile_routes(connection,limiter):
 
     profileDropDownObj = ProfileDataDropdown()
     dbObj = data_base(connection)
+    profileDbObj = ProfileDatabase(connection)
 
     # ======================== DROPDOWN DATA ============================
 
@@ -39,6 +40,23 @@ def profile_routes(connection,limiter):
             data = dbObj.selectQuery(query,False)
             data = profileDropDownObj.getQueTableData(data)
             return jsonify({"data": data, "error": False}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({"data": 'Error Occured', "error": True}), 500
+        
+    # ========================= USER STATUS DATA ===============================
+
+    @profile.route('/user_status',methods=["GET"])
+    @limiter.limit("30/minute")
+    @jwt_required()
+    def getUserStatus():
+        try:
+            id = request.args.get('id')
+            query = "select level, count(question_id) AS totalQue from questions GROUP BY level;"
+            data = dbObj.selectQuery(query,False)
+            data = profileDbObj.calcUserStatus(data,id)
+            # data = profileDropDownObj.getQueTableData(data)
+            return jsonify({"data":data, "error": False}), 200
         except Exception as e:
             print(e)
             return jsonify({"data": 'Error Occured', "error": True}), 500
