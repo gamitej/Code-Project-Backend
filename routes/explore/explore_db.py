@@ -47,7 +47,8 @@ class ExploreDatabase:
 
     def addQuestionToTable(self, url,topic, question, level, platform):
         question_id = uuid.uuid1().hex
-        res = self.data_base_obj.insertIntoTable(self.table_name, "(?,?,?,?,?,?)",(url,question_id, topic, question, level, platform))
+        query = f"insert into questions (url,question_id, topic, question, level, platform) values ('{url}','{question_id}','{topic}','{question.strip()}','{level}','{platform}')"
+        res = self.data_base_obj.insertIntoTable(query)
         return res
 
 if __name__ == "__main__":
