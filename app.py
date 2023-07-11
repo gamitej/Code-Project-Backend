@@ -1,9 +1,10 @@
 # ======= Libs imports =========
 import os
 import atexit
-import sqlite3
+# import sqlite3
 import logging
-from sqlite3 import dbapi2 as sqlite
+import psycopg2
+# from sqlite3 import dbapi2 as sqlite
 from decouple import Config, RepositoryEnv
 # ======= Flask imports ======== 
 from flask_cors import CORS
@@ -24,6 +25,11 @@ from routes.auth.auth_db import AuthDb
 config = Config(RepositoryEnv(".env")) 
 secret_key =config('SECRET_KEY')
 port = config('PORT')
+USERNAME = config('USERNAME')
+PORTNUMBER = config('PORTNUMBER')
+HOSTNAME = config('HOSTNAME')
+DATABASE = config('DATABASE')
+PASSWORD = config('PASSWORD')
 
 # ======================= App config ========================
 
@@ -65,12 +71,17 @@ app.logger.addFilter(ClientIPFilter())
 # =============== Databse Connection ===============
 
 def connect_to_db():
-    print("\n💻 Connecting to database ...\n")
-    connection = sqlite3.connect('data.db')
-    print("✅ Connected to database 💻 ...\n")
-    # Enable foreign key constraint exceptions
-    sqlite.enable_callback_tracebacks(True)
-    return connection
+    try:
+        print("\n💻 Connecting to database ...\n")
+        connection = psycopg2.connect(user=USERNAME,password=PASSWORD,host=HOSTNAME,port=PORTNUMBER,database=DATABASE)
+        # connection = sqlite3.connect('data.db')
+        print("✅ Connected to database 💻 ...\n")
+        # Enable foreign key constraint exceptions
+        # sqlite.enable_callback_tracebacks(True)
+        return connection
+    except (Exception,psycopg2.Error) as error:
+        print("\n❌ Error while connecting to database\n")
+        print(error)
 
 connection = connect_to_db()
 authDbObj = AuthDb(connection)
