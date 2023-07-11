@@ -45,7 +45,7 @@ compress.init_app(app)
 
 # ==================== JWT Configuration =====================
 app.config['JWT_SECRET_KEY'] = secret_key  
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 7200
 jwt = JWTManager(app)
 
 # ==================== Logging ==============================
@@ -89,9 +89,9 @@ authDbObj = AuthDb(connection)
 # =================== ROUTES START =========================
 
 # Log incoming requests before handling them
-@app.before_request
-def log_request():
-    app.logger.info(f"Incoming request: {request.method} {request.path}")
+# @app.before_request
+# def log_request():
+#     app.logger.info(f"Incoming request: {request.method} {request.path}")
 
 app.register_blueprint(auth_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(explore_routes(connection,limiter), url_prefix='/')
