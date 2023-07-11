@@ -1,9 +1,10 @@
 # ======= Libs imports =========
 import os
 import atexit
-import sqlite3
+# import sqlite3
 import logging
-from sqlite3 import dbapi2 as sqlite
+import psycopg2
+# from sqlite3 import dbapi2 as sqlite
 from decouple import Config, RepositoryEnv
 # ======= Flask imports ======== 
 from flask_cors import CORS
@@ -24,6 +25,11 @@ from routes.auth.auth_db import AuthDb
 config = Config(RepositoryEnv(".env")) 
 secret_key =config('SECRET_KEY')
 port = config('PORT')
+USERNAME = config('USERNAME')
+PORTNUMBER = config('PORTNUMBER')
+HOSTNAME = config('HOSTNAME')
+DATABASE = config('DATABASE')
+PASSWORD = config('PASSWORD')
 
 # ======================= App config ========================
 
@@ -39,7 +45,7 @@ compress.init_app(app)
 
 # ==================== JWT Configuration =====================
 app.config['JWT_SECRET_KEY'] = secret_key  
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 7200
 jwt = JWTManager(app)
 
 # ==================== Logging ==============================
@@ -65,12 +71,17 @@ app.logger.addFilter(ClientIPFilter())
 # =============== Databse Connection ===============
 
 def connect_to_db():
-    print("\n💻 Connecting to database ...\n")
-    connection = sqlite3.connect('data.db')
-    print("✅ Connected to database 💻 ...\n")
-    # Enable foreign key constraint exceptions
-    sqlite.enable_callback_tracebacks(True)
-    return connection
+    try:
+        print("\n💻 Connecting to database ...\n")
+        connection = psycopg2.connect(user=USERNAME,password=PASSWORD,host=HOSTNAME,port=PORTNUMBER,database=DATABASE)
+        # connection = sqlite3.connect('data.db')
+        print("✅ Connected to database 💻 ...\n")
+        # Enable foreign key constraint exceptions
+        # sqlite.enable_callback_tracebacks(True)
+        return connection
+    except (Exception,psycopg2.Error) as error:
+        print("\n❌ Error while connecting to database\n")
+        print(error)
 
 connection = connect_to_db()
 authDbObj = AuthDb(connection)
@@ -78,9 +89,9 @@ authDbObj = AuthDb(connection)
 # =================== ROUTES START =========================
 
 # Log incoming requests before handling them
-@app.before_request
-def log_request():
-    app.logger.info(f"Incoming request: {request.method} {request.path}")
+# @app.before_request
+# def log_request():
+#     app.logger.info(f"Incoming request: {request.method} {request.path}")
 
 app.register_blueprint(auth_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(explore_routes(connection,limiter), url_prefix='/')

@@ -24,23 +24,12 @@ class data_base:
         row = result.fetchall()
         return row
 
-    def insertIntoTable(self,table_name, total_values, values):
+    def insertIntoTable(self,insert_query):
         cursor = self.connection.cursor()
-        insert_query = f"INSERT OR IGNORE INTO {table_name} VALUES{total_values}"
-        cursor.execute(insert_query, values)
+        print(insert_query)
+        cursor.execute(insert_query)
         self.connection.commit()
 
-    def updateTable(self,table_name, rows_to_update, where_cond, values):
-        cursor = self.connection.cursor()
-        update_query = f"UPDATE {table_name} SET {rows_to_update} where {where_cond}"
-        cursor.execute(update_query, values)
-        self.connection.commit()
-
-    def deleteRowFromTable(self,table_name, id):
-        cursor = self.connection.cursor()
-        del_query = f"DELETE from {table_name} where id = '{id}'"
-        cursor.execute(del_query)
-        self.connection.commit()
 
 if __name__=='__main__':
     pass

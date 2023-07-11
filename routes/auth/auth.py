@@ -49,8 +49,8 @@ def auth_routes(connection,limiter):
             username, passwd = req["username"], req["password"]
             # === check if user
             res = authDbObj.getUsers(username)
-            if res:
-                return jsonify({"message": "Username already exists","error":True}), 400
+            if res is not None:
+                return jsonify({"message": "Username already exists","error":True}), 200
             else:
                 res = authDbObj.insertUser(username, str(passwd))
                 return jsonify({"message": "Sign-up Successfully","error":False}), 200
