@@ -15,7 +15,7 @@ class ExploreDatabase:
     
     def topicsInfoUser(self,user_id):
         topicMap = self.profileObj.getTopicMapping()
-        query = f"SELECT q.topic, COUNT(q.question_id) AS total_questions, COUNT(uq.question_id) AS questions_done FROM questions q LEFT JOIN user_questions uq ON q.question_id = uq.question_id AND uq.user_id = '{user_id}' GROUP BY q.topic;"
+        query = f"SELECT q.topic, COUNT(q.question_id) AS total_questions, COUNT(uq.question_id) AS questions_done FROM questions q LEFT JOIN user_questions uq ON q.question_id = uq.question_id AND uq.user_id = '{user_id}' GROUP BY q.topic order by q.topic;"
         data = self.data_base_obj.selectQuery(query,False)
         finalJson = []
         for row in data:
