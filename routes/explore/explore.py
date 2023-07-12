@@ -72,7 +72,6 @@ def explore_routes(connection,limiter):
             # to unmark the question
             query = f"select * from user_questions where question_id = '{question_id}' and user_id = '{id}'"
             resQuery = dataBaseObj.selectQuery(query,True)
-            print(resQuery)
             if resQuery is not None:
                 query = f"delete from user_questions where question_id = '{question_id}' and user_id = '{id}'"
                 dataBaseObj.execute_query(query)
