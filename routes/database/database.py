@@ -26,7 +26,6 @@ class data_base:
 
     def insertIntoTable(self,insert_query):
         cursor = self.connection.cursor()
-        print(insert_query)
         cursor.execute(insert_query)
         self.connection.commit()
 

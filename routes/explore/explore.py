@@ -69,6 +69,14 @@ def explore_routes(connection,limiter):
         try:
             req = request.get_json()
             id,question_id,topic =  req["user_id"],req["question_id"],req["topic"]
+            # to unmark the question
+            query = f"select * from user_questions where question_id = '{question_id}' and user_id = '{id}'"
+            resQuery = dataBaseObj.selectQuery(query,True)
+            if resQuery is not None:
+                query = f"delete from user_questions where question_id = '{question_id}' and user_id = '{id}'"
+                dataBaseObj.execute_query(query)
+                return jsonify({"data": "Question un-marked","error":False}),200
+            # to mark a question as done
             dataBaseObj.execute_query(f"insert into user_questions (user_id, question_id,topic) values ('{id}', '{question_id}','{topic}')")
             return jsonify({"data": "Mark question as done","error":False}),200            
         except Exception as e:
