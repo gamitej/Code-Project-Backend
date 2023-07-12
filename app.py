@@ -75,11 +75,11 @@ def connect_to_db():
     try:
         print("\n💻 Connecting to database ...\n")
         # connection = psycopg2.connect(user=USERNAME,password=PASSWORD,host=HOSTNAME,port=PORTNUMBER,database=DATABASE)
-        # connection = psycopg2.connect(URL)
-        connection = sqlite3.connect('data.db')
+        connection = psycopg2.connect(URL)
+        # connection = sqlite3.connect('data.db')
         print("✅ Connected to database 💻 ...\n")
         # Enable foreign key constraint exceptions
-        sqlite.enable_callback_tracebacks(True)
+        # sqlite.enable_callback_tracebacks(True)
         return connection
     except (Exception,psycopg2.Error) as error:
         print("\n❌ Error while connecting to database\n")
