@@ -6,7 +6,7 @@ class ProfileDataDropdown:
     platformName = "platform"
 
     topicMappping = {"twoPointers": "Two Pointers",
-                    "strings": "Strings", "arrays": "Arrays","stack":"Stack","binarySearch":"Binary Search"}
+                    "strings": "Strings", "arrays": "Arrays","stack":"Stack","binarySearch":"Binary Search","linkedlist":"Linked List","tree-1":"Tree - 1","tree-2":"Tree - 2","dp-1":"Dynamic Programming - 1","heap":"Heap - Priority Queue","dp-2":"Dynamic Programming - 2"}
 
     platformMappping = {"codechef": "Codechef",
                         "codeforces": "Codeforces", "leetcode": "Leetcode"}
@@ -63,7 +63,10 @@ class ProfileDataDropdown:
     ]
 
     def getTopicMapping(self):
-        return self.topicMappping
+        myKeys = list(self.topicMappping.keys())
+        myKeys.sort()
+        sorted_dict = {i: self.topicMappping[i] for i in myKeys}
+        return sorted_dict
     
 
     def getQueTableData(self,data):
