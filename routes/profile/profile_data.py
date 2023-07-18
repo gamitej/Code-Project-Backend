@@ -72,12 +72,12 @@ class ProfileDataDropdown:
     def getQueTableData(self,data):
         rows = []
         for row in data:
-            url,topic,question,level,platform,done=row[0],row[1],row[2],row[3],row[4],row[5]
+            url,topic,question,level,platform,date,done=row[0],row[1],row[2],row[3],row[4],row[5],row[6]
             if done == 1:
                 done = "Yes"
             else:
                 done ="No"
-            rows.append({"level":level,"topic":self.topicMappping.get(topic),"question":question,"platform":platform,"done":done,"url":url})
+            rows.append({"level":level,"topic":self.topicMappping.get(topic),"question":question,"platform":platform,"done":done,"url":url,"date":date})
         return {"rows":rows}
 
 if __name__=="__main__":
