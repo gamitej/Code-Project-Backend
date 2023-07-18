@@ -71,8 +71,6 @@ class ProfileDataDropdown:
 
     def getQueTableData(self,data):
         rows = []
-        if data !=[]:
-            data = data[:len(data)-1]
         for row in data:
             url,topic,question,level,platform,done=row[0],row[1],row[2],row[3],row[4],row[5]
             if done == 1:
