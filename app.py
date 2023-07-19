@@ -15,6 +15,7 @@ from routes.auth.auth import auth_routes
 from routes.topic.topic import topic_routes
 from routes.explore.explore import explore_routes
 from routes.profile.profile import profile_routes
+from routes.notification.notification import notification_routes
 # ========= File imports ======== 
 from routes.auth.auth_db import AuthDb
 
@@ -92,6 +93,8 @@ app.register_blueprint(auth_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(explore_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(topic_routes(connection,limiter), url_prefix='/topic')
 app.register_blueprint(profile_routes(connection,limiter), url_prefix='/profile')
+app.register_blueprint(notification_routes(connection,limiter), url_prefix='/')
+
 
 @app.errorhandler(404)
 def error(e):
