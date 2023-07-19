@@ -10,14 +10,15 @@ class NotificationDb:
         self.data_base_obj = data_base(connection)
 
     def getNotificationOfUser(self,id):
-        query = f"SELECT n.notification_id, n.content,CASE WHEN un.user_id IS NULL THEN FALSE ELSE TRUE END AS seen FROM notifications n LEFT JOIN user_notification un ON n.notification_id = un.notification_id AND un.user_id = '{id}'"
+        query = f"SELECT n.notification_id, n.content,CASE WHEN un.user_id IS NULL THEN FALSE ELSE TRUE END AS seen FROM notifications n LEFT JOIN user_notification un ON n.notification_id = un.notification_id AND un.user_id = '{id}' order by n.timestamp desc"
 
         data = self.data_base_obj.selectQuery(query,False)
         jsonData = []
-        for row in data:
-            id,text,seen = row[0],row[1],row[2]
-            json = {"id":id, "text":text, "seen":seen}
-            jsonData.append(json)
+        if data is not None:
+            for row in data:
+                id,text,seen = row[0],row[1],row[2]
+                json = {"id":id, "text":text, "seen":seen}
+                jsonData.append(json)
         return jsonData
     
     def markNotificationsUser(self,id,req):
