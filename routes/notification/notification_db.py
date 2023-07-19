@@ -14,7 +14,7 @@ class NotificationDb:
 
         data = self.data_base_obj.selectQuery(query,False)
         jsonData = []
-        if data is not None:
+        if data !=[]:
             for row in data:
                 id,text,seen = row[0],row[1],row[2]
                 json = {"id":id, "text":text, "seen":seen}
