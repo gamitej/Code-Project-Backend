@@ -25,5 +25,19 @@ def notification_routes(connection,limiter):
             print(e)
             return jsonify({"message": "Something went wrong","error":True}), 500
     
+    @noti.route('/mark-notifications', methods=["POST"])
+    @limiter.limit("30/minute")
+    @jwt_required() 
+    def markNotification():
+        try:
+            id = request.args.get('id')
+            req = request.get_json()
+            data = notiObj.markNotificationsUser(id,req)
+            return jsonify({"message":"Marked Successfully","error":False}), 200
+            
+        except Exception as e:
+            print(e)
+            return jsonify({"message": "Something went wrong","error":True}), 500
+    
     return noti
 

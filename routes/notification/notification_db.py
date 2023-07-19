@@ -19,6 +19,12 @@ class NotificationDb:
             json = {"id":id, "text":text, "seen":seen}
             jsonData.append(json)
         return jsonData
+    
+    def markNotificationsUser(self,id,req):
+        for row in req:
+            notif_id = row['id']
+            query = f"insert into user_notification (user_id,notification_id,seen) values ('{id}','{notif_id}','true')"
+            self.data_base_obj.insertIntoTable(query)
 
     
 
