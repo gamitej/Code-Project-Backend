@@ -44,6 +44,7 @@ compress.init_app(app)
 
 # ==================== JWT Configuration =====================
 app.config['JWT_SECRET_KEY'] = secret_key  
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 10 * 24 * 60 * 60
 jwt = JWTManager(app)
 
 # ==================== Logging ==============================
