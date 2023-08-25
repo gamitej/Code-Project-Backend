@@ -89,6 +89,11 @@ authDbObj = AuthDb(connection)
 # def log_request():
 #     app.logger.info(f"Incoming request: {request.method} {request.path}")
 
+
+@app.route('/checkServer', methods=["GET"])
+def check():
+    return jsonify({"message":"Server is running"})
+
 app.register_blueprint(auth_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(explore_routes(connection,limiter), url_prefix='/')
 app.register_blueprint(topic_routes(connection,limiter), url_prefix='/topic')
