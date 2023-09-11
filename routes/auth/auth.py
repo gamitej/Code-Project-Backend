@@ -23,7 +23,7 @@ def auth_routes(connection,limiter):
             # === check if user & passwd match
             res = authDbObj.checkUserValidity(username, passwd)
             if not res:
-                return jsonify({"message": "Username/Password is incorrect","error":False}), 400
+                return jsonify({"message": "Username/Password is incorrect","error":True}), 400
             else:
                 # === return user_id
                 query = f"select user_id from users where username =  '{username}'"
@@ -37,7 +37,7 @@ def auth_routes(connection,limiter):
                     return jsonify({"message": "Something went wrong","error":True}), 400
         except Exception as e:
             print(e)
-            return jsonify({"message": "Something went wrong","error":False}), 500
+            return jsonify({"message": "Something went wrong","error":True}), 500
         
     # ============================ SIGNUP =================================
 
